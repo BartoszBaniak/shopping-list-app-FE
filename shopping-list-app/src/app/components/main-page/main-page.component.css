@@ -96,24 +96,24 @@ body {
 .main-content {
     flex-grow: 1;
     padding: 80px 40px;
-    padding-left: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center top;
 }
 
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
-    max-width: 800px;
 }
 
 .header h1 {
     font-size: 45px;
     margin: 0;
+    justify-content: flex-start;
 }
 
 .create-newlist-button {
@@ -124,15 +124,14 @@ body {
     font-size: 24px;
     cursor: pointer;
     border-radius: 5px;
+    margin-left: auto;
 }
 
 :host ::ng-deep .p-dialog .p-dialog-header {
     width: 25rem;
     height: auto;
     justify-content: center;
-    align-items: center;
-    position: relative;
-    padding: 40px;
+    align-items: flex-start;
 }
 
 :host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
@@ -170,15 +169,85 @@ body {
 
 .lists {
     margin-top: 2rem;
-    margin-left: 2rem;
-    width: 60%;
+    width: 100%;
     font-size: 20px;
+    justify-content: center;
 }
 
 .list-item {
     background-color: rgb(2, 167, 240, 0.75);
     color: #fff;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem !important;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    margin: 0;
 }
+
+.list-item:hover {
+    background-color: rgb(2, 167, 240, 0.6);
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    transition: background-color 0.3s;
+    border-radius: 9999px;
+}
+
+.edit-btn:hover {
+    background-color: #dddddd86;
+}
+
+.edit-btn:hover::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2rem;
+    height: 2rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    
+}
+
+.list-info {
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.overlay-btn-rename {
+    background: none;
+    border: #00aaff;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .overlay-btn-delete {
+    background: none;
+    border: #00aaff;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .overlay-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }

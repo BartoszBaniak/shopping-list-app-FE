@@ -4,6 +4,8 @@ import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../services/auth.service';
 import { DialogModule } from 'primeng/dialog'
 import { ListsData } from '../../models/list-data';
+import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
+import { ListsService } from '../../services/lists.service';
 
 @Component({
   selector: 'app-main-page',
@@ -18,8 +20,8 @@ export class MainPageComponent {
   visible = false;
   newListName: string = '';
   shoppingLists: ListsData[] = [];
-  
   private profileService = inject(ProfileService);
+  private listsService = inject(ListsService);
 
   constructor(
     private authService: AuthService,
@@ -30,7 +32,8 @@ export class MainPageComponent {
     if (this.authService.decodedToken) {
       this.uuid = this.authService.decodedToken.sub;
     }
-    this.getProfileDetails()
+    this.getProfileDetails();
+    this.getShoppingLists();
   }
 
   getProfileDetails(): void {
@@ -56,11 +59,53 @@ export class MainPageComponent {
     this.isDialogOpen = false;
   }
 
-  createNewList() {
+  submitList() {
     if (this.newListName.trim().length > 0) {
-      this.shoppingLists.push({ name: this.newListName });
-      this.newListName = '';
-      this.isDialogOpen = false;
+      this.listsService.createList(this.newListName).
+      subscribe(
+        (response) => {
+          console.log('List created:', response);
+          this.isDialogOpen = false;
+        },
+        (error) => {
+          console.log('Error creating post:', error);
+        }
+      );
     }
+    this.refreshPage();
+  }
+
+  getShoppingLists() {
+    const userId = this.authService.decodedToken.sub;
+    if(userId) {
+      this.listsService.getListsByUserId(userId).subscribe(
+        (lists: ListsData[]) => {
+          this.shoppingLists = lists;
+        },
+        (error) => {
+          console.error('Error loading shopping lists', error);
+        }
+      );
+    }
+  }
+
+  onListClick(lists: ListsData) {
+    console.log('List clicked: ', lists.name);
+  }
+
+  showOverlayPanel(event: Event, overlayPanel: OverlayPanel) {
+    overlayPanel.toggle(event);
+  }
+
+  deleteList(list: ListsData) {
+
+  }
+
+  renameList(list: ListsData) {
+
+  }
+
+  refreshPage(): void {
+    window.location.reload();
   }
 }

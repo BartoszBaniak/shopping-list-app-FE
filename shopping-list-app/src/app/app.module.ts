@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DividerModule } from "primeng/divider";
 import { MainPageComponent } from "./components/main-page/main-page.component";
 import { DialogModule } from 'primeng/dialog';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { DialogModule } from 'primeng/dialog';
         FormsModule,
         DividerModule,
         MatDialogModule,
-        DialogModule
+        DialogModule,
+        OverlayPanelModule
     ],
     providers: [provideHttpClient()],
     bootstrap: [AppComponent]

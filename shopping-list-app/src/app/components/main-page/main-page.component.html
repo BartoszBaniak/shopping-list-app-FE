@@ -45,14 +45,28 @@
                         </div>
                         <div class="p-dialog-footer">
                             <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="isDialogOpen = false"></button>
-                            <button pButton type="button" label="Create" class="p-button-primary" (click)="createNewList()"></button>
+                            <button pButton type="button" label="Create" class="p-button-primary" (click)="submitList()"></button>
                         </div>
                     </div>
                 </p-dialog>
             </div>
             <div class="lists">
                 <div *ngFor="let list of shoppingLists" class="list-item">
-                    <p>{{ list.name }}</p>
+                    <span style="margin-left: 20px;">{{ list.name }}</span>
+                    <span class="list-info">0/0</span>
+                    <button class="edit-btn" (click)="op.toggle($event)">⋮</button>
+                        <p-overlayPanel #op class="overlay-edit-panel">
+                            <div style="display: flex; flex-direction: column;">
+                                <button class="overlay-btn-rename" (click)="renameList(list)">
+                                    <span class="icon">✏️</span>
+                                    Rename
+                                </button>
+                                <button class="overlay-btn-delete" (click)="deleteList(list)">
+                                    <span class="icon">🗑️</span>
+                                    Delete
+                                </button>
+                            </div>
+                        </p-overlayPanel>
                 </div>
             </div>
         </main>
