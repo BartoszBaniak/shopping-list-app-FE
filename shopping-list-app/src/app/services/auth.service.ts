@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { LoginService } from './login.service';
 import { LoginData } from '../models/login-data';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { UserDetails } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthService {
   isLogged$ = this._isLogged$.asObservable();
   private loginService = inject(LoginService);
   decodedToken: any;
+  userDetails?: UserDetails;
 
   constructor() {
     const user_token = localStorage.getItem('token');

@@ -19,6 +19,7 @@ export class MainPageComponent {
   isDialogOpen = false;
   visible = false;
   newListName: string = '';
+  firstNameInitial: string = '';
   shoppingLists: ListsData[] = [];
   private profileService = inject(ProfileService);
   private listsService = inject(ListsService);
@@ -40,6 +41,7 @@ export class MainPageComponent {
     this.profileService.getProfileDetails().subscribe(
       (response) => {
         this.userDetails = response;
+        this.firstNameInitial = this.userDetails.firstname.charAt(0);
       },
       (error) => {
         console.log(error);
@@ -108,4 +110,5 @@ export class MainPageComponent {
   refreshPage(): void {
     window.location.reload();
   }
+
 }
