@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LoginData } from '../models/login-data';
+import { environment } from '../environments/enviroment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,14 @@ import { LoginData } from '../models/login-data';
 
 
 export class LoginService {
-  private loginUrl = "http://localhost:3000";
+  private baseUrl = environment.baseURL;
 
   private http = inject(HttpClient);
   
   constructor() {}
 
-  login(data: LoginData) {
-    return this.http.post<LoginData>('http://localhost:3000/login', data);
+  login(data: LoginData): Observable<string> {
+    return this.http.post(`${this.baseUrl}auth/login`, data, {responseType: 'text'});
     }
   }
 

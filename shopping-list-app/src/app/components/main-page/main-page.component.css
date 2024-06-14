@@ -1,0 +1,184 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar-header h2 {
+    color: #00aaff;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.username {
+    font-size: 16px;
+}
+
+.menu {
+    flex-grow: 1;
+    margin-top: 20px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu .shopping-lists {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.menu .shopping-lists .icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.menu .trash {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.menu .trash .icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+
+.settings {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.settings .icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 80px 40px;
+    padding-left: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+}
+
+.header h1 {
+    font-size: 45px;
+    margin: 0;
+}
+
+.create-newlist-button {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+    width: 25rem;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 40px;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+    font-size: 30px;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+    width: 25rem;
+    height: auto;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header-icon {
+    display: none;
+  }
+
+.p-button-secondary {
+    margin-right: 1rem;
+    width: 150px;
+}
+
+.p-button-primary {
+    background-color: rgb(2, 167, 240);
+    width: 150px;
+    margin-left: 2rem;
+}
+
+.p-dialog-footer {
+    display: flex;
+}
+
+.p-field {
+    margin-bottom: 15px;
+}
+
+.lists {
+    margin-top: 2rem;
+    margin-left: 2rem;
+    width: 60%;
+    font-size: 20px;
+}
+
+.list-item {
+    background-color: rgb(2, 167, 240, 0.75);
+    color: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}

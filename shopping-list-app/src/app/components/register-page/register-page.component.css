@@ -56,3 +56,52 @@
 .p6 {
   font-size: 20px;
 }
+
+.form-group input, .form-group .p-password input {
+  width: 100%;
+  font-size: 15px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.p-password {
+  width: 100%;
+}
+
+.p-password-panel {
+  height: fit-content;
+  border: 3px solid  rgb(2, 167, 240);
+  border-radius: 25px;
+  color: #000000;
+  padding-bottom: 0px;
+  text-align: center;
+}
+
+.p-password-panel ul {
+  list-style-type: none;
+}
+
+.p-password-meter {
+  display: none;
+}
+
+.p-password-info {
+  display: none;
+}

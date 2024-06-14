@@ -2,6 +2,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginData } from '../../models/login-data';
 import { LoginService } from '../../services/login.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -11,32 +13,58 @@ import { LoginService } from '../../services/login.service';
 })
 export class LoginPageComponent {
   loginForm: FormGroup;
+  loginError: boolean = false;
+  passwordFieldType: string = 'password';
 
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
+    private authService: AuthService,
+    private router: Router,
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
-
+  goToRoute(route: string) {
+    this.router.navigateByUrl(route);
+  }
 
   login() {
-    if (this.loginForm.invalid) {
-      return;
+    if (this.loginForm.valid){
+      const data = {...this.loginForm.value};
+      console.log(data);
+      this.authService.userAuthorization(data).subscribe(
+        (response: any) => {
+          console.log("Login successful:", response);
+          this.goToRoute('main');
+        },
+        (error: any) => {
+          console.error("Login failed:", error);
+          this.loginError = true;
+        }
+      );
     }
+  }
 
-    const data = this.loginForm.value;
+  resetTouched(controlName: string) {
+    this.loginForm.controls[controlName].markAsUntouched();
+    this.loginError = false;
+  }
 
-    this.loginService.login(data).subscribe(
-      (response) => {
-        console.log("Login successful:", response);
-      },
-      (error) => {
-        console.error("Login failed:", error);
-      }
+  get emailFormField() {
+    return this.loginForm.controls['email'];
+  }
+  get passwordFormField() {
+    return this.loginForm.get('password');
+  }
+
+  isInvalidEmail() {
+    return (
+      this.emailFormField.invalid &&
+      this.emailFormField.value !== '' &&
+      this.emailFormField.touched
     );
   }
 }

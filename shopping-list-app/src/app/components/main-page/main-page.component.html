@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List App</title>
+    <link rel="stylesheet" href="main-page.component.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Shopping List App</h2>
+            </div>
+            <div class="user-section">
+                <div class="user-icon">U</div>
+                <div class="username">Username</div>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <div class="shopping-lists">
+                        <span class="icon">📖</span>
+                        Shopping lists
+                    </div>
+                    <div class="trash">
+                        <span class="icon">🗑️</span>
+                        Trash
+                    </div>
+                </ul>
+            </nav>
+            <div class="settings">
+                <span class="icon">⚙️</span>
+                Settings
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="header">
+                <h1>Your shopping lists</h1>
+                <button (click)="showDialog()" class="create-newlist-button">Create new list</button>
+                <p-dialog header="Create a new list" [(visible)]="visible" [(visible)]="isDialogOpen" 
+                    [modal]="true" [draggable]="false" [resizable]="false">
+                    <div class="p-fluid">
+                        <div class="p-field">
+                            <input id="listName" placeholder="New list" type="text" pInputText [(ngModel)]="newListName">
+                        </div>
+                        <div class="p-dialog-footer">
+                            <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="isDialogOpen = false"></button>
+                            <button pButton type="button" label="Create" class="p-button-primary" (click)="createNewList()"></button>
+                        </div>
+                    </div>
+                </p-dialog>
+            </div>
+            <div class="lists">
+                <div *ngFor="let list of shoppingLists" class="list-item">
+                    <p>{{ list.name }}</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
