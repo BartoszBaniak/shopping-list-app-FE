@@ -108,7 +108,8 @@ export class MainPageComponent {
     console.log('List clicked: ', lists.name);
   }
 
-  showOverlayPanel(event: Event, overlayPanel: OverlayPanel) {
+  toggleOverlayPanel(event: Event, overlayPanel: OverlayPanel) {
+    event.stopPropagation();
     overlayPanel.toggle(event);
   }
 
@@ -122,6 +123,16 @@ export class MainPageComponent {
 
   refreshPage(): void {
     window.location.reload();
+  }
+
+  generateRandomIcon(): void {
+    const icons = ["🧺", "🍎", "🍇", "🥑", "🍉", "🍌", "🍒", "🍑", "🍍", "🥥"];
+    const randomIndex = Math.floor(Math.random() * icons.length);
+    const randomIcon = icons[randomIndex];
+    const iconElement = document.getElementById('randomIcon');
+    if (iconElement) {
+      iconElement.innerText = randomIcon;
+    }
   }
 
 }

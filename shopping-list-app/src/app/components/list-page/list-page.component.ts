@@ -6,7 +6,7 @@ import { ProfileService } from '../../services/profile.service';
 import { Observable } from 'rxjs';
 import { HttpHandler, HttpHeaders } from '@angular/common/http';
 import { ListsData } from '../../models/list-data';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-page',
@@ -19,11 +19,13 @@ export class ListPageComponent {
   userDetails?: UserDetails;
   listId!: number;
   listDetails?: ListsData;
+  showAddProduct: boolean = false;
   private profileService = inject(ProfileService);
   private listsService = inject(ListsService);
 
   constructor (
     private authService: AuthService,
+    private router: Router,
     private route: ActivatedRoute,
   ) {}
 
@@ -65,6 +67,28 @@ export class ListPageComponent {
         console.error('Error fetching list details:', error);
       }
     );
+  }
+
+  goToRoute(route: string) {
+    this.router.navigateByUrl(route);
+  }
+
+  goToShoppingLists() {
+    this.router.navigate(['/main']);
+  }
+
+  generateRandomIcon(): void {
+    const icons = ["🧺", "🍎", "🍇", "🥑", "🍉", "🍌", "🍒", "🍑", "🍍", "🥥"];
+    const randomIndex = Math.floor(Math.random() * icons.length);
+    const randomIcon = icons[randomIndex];
+    const iconElement = document.getElementById('randomIcon');
+    if (iconElement) {
+      iconElement.innerText = randomIcon;
+    }
+  }
+
+  toggleAddProduct(): void {
+    this.showAddProduct = !this.showAddProduct;
   }
 
 }

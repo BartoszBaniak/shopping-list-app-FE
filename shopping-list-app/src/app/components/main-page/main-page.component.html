@@ -54,7 +54,7 @@
                 <div *ngFor="let list of shoppingLists" class="list-item" (click)="checkListDetails(list.id)">
                     <span style="margin-left: 20px;">{{ list.name }}</span>
                     <span class="list-info">0/0</span>
-                    <button class="edit-btn" (click)="op.toggle($event)">⋮</button>
+                    <button class="action-btn" (click)="toggleOverlayPanel($event, op)">⋮</button>
                         <p-overlayPanel #op class="overlay-edit-panel">
                             <div style="display: flex; flex-direction: column;">
                                 <button class="overlay-btn-rename" (click)="renameList(list)">

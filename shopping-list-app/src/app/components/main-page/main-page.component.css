@@ -191,7 +191,7 @@ body {
     cursor: pointer;
 }
 
-.edit-btn {
+.action-btn {
     background: none;
     border: none;
     color: #fff;
@@ -204,11 +204,11 @@ body {
     border-radius: 9999px;
 }
 
-.edit-btn:hover {
+.action-btn:hover {
     background-color: #dddddd86;
 }
 
-.edit-btn:hover::before {
+.action-btn:hover::before {
     content: '';
     position: absolute;
     top: 50%;
