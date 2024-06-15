@@ -6,6 +6,7 @@ import { DialogModule } from 'primeng/dialog'
 import { ListsData } from '../../models/list-data';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
 import { ListsService } from '../../services/lists.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -21,11 +22,15 @@ export class MainPageComponent {
   newListName: string = '';
   firstNameInitial: string = '';
   shoppingLists: ListsData[] = [];
+  listDetails?: ListsData;
+  listId!: number;
   private profileService = inject(ProfileService);
   private listsService = inject(ListsService);
 
   constructor(
     private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +52,14 @@ export class MainPageComponent {
         console.log(error);
       }
     );
+  }
+
+  goToRoute(route: string) {
+    this.router.navigateByUrl(route);
+  }
+
+  checkListDetails(listId: number): void {
+    this.router.navigate(['/list', listId]);
   }
 
   showDialog(): void {

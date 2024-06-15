@@ -27,6 +27,7 @@ export class LoginPageComponent {
       password: ['', [Validators.required]],
     });
   }
+  
   goToRoute(route: string) {
     this.router.navigateByUrl(route);
   }

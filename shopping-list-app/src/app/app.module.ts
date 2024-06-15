@@ -24,13 +24,15 @@ import { DividerModule } from "primeng/divider";
 import { MainPageComponent } from "./components/main-page/main-page.component";
 import { DialogModule } from 'primeng/dialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ListPageComponent } from "./components/list-page/list-page.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         RegisterPageComponent,
         LoginPageComponent,
-        MainPageComponent
+        MainPageComponent,
+        ListPageComponent
     ],
     imports : [
         BrowserModule,

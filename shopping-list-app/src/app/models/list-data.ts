@@ -1,3 +1,5 @@
 export type ListsData = {
-    name: string;
+  id: number;  
+  name: string;
+  user_id: string;
   };

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { RegisterPageComponent } from "./components/register-page/register-page.component";
 import { LoginPageComponent } from "./components/login-page/login-page.component";
 import { MainPageComponent } from "./components/main-page/main-page.component";
+import { ListPageComponent } from "./components/list-page/list-page.component";
 
 const routes: Routes = [
     { 
@@ -21,6 +22,10 @@ const routes: Routes = [
     {
         path:'main',
         component: MainPageComponent
+    },
+    {
+        path:'list/:id',
+        component: ListPageComponent
     }
 ];
 

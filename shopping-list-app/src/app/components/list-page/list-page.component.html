@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List App</title>
+    <link rel="stylesheet" href="list-page.component.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Shopping List App</h2>
+            </div>
+            <div class="user-section">
+                <div class="user-icon">{{ firstNameInitial }}</div>
+                <div class="username">{{ userDetails?.firstname }} {{ userDetails?.lastname }}</div>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <div class="shopping-lists">
+                        <span class="icon">📖</span>
+                        Shopping lists
+                    </div>
+                    <div class="trash">
+                        <span class="icon">🗑️</span>
+                        Trash
+                    </div>
+                </ul>
+            </nav>
+            <div class="settings">
+                <span class="icon">⚙️</span>
+                Settings
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="header">
+                <h1>{{ listDetails?.name }}</h1>
+                <div class="actions">
+                    
+                </div>            
+            </div>
+            <div class="content">
+                <h2>What do you need to buy?</h2>
+                <p>Start searching products to add them to your list</p>
+                <button class="add-products-btn">✖️</button>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

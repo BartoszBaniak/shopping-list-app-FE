@@ -37,4 +37,12 @@ export class ListsService {
 
     return this.http.get<ListsData[]>(`${this.baseUrl}shoppingLists/user/${uuid}`, { headers })
   }
+
+  getListById(id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+
+    return this.http.get<any>(`${this.baseUrl}shoppingLists/${id}`, { headers });
+  }
 }
