@@ -7,6 +7,7 @@ import { ListsData } from '../../models/list-data';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
 import { ListsService } from '../../services/lists.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-main-page',
@@ -18,12 +19,15 @@ export class MainPageComponent {
   uuid?: string;
   userDetails?: UserDetails;
   isDialogOpen = false;
+  isSettingsDialogOpen = false;
   visible = false;
+  settingVisible = false;
   newListName: string = '';
   firstNameInitial: string = '';
   shoppingLists: ListsData[] = [];
   listDetails?: ListsData;
   listId!: number;
+  listsInTrash: ListsData[] = [];
   private profileService = inject(ProfileService);
   private listsService = inject(ListsService);
 
@@ -31,6 +35,7 @@ export class MainPageComponent {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -58,12 +63,28 @@ export class MainPageComponent {
     this.router.navigateByUrl(route);
   }
 
+  goToTrash() {
+    this.router.navigate(['/trash']);
+  }
+
   checkListDetails(listId: number): void {
     this.router.navigate(['/list', listId]);
   }
 
   showDialog(): void {
     this.openDialog();
+  }
+
+  showSettingsDialog(): void {
+    this.openSettingsDialog();
+  }
+
+  openSettingsDialog() {
+    this.isSettingsDialogOpen = true;
+  }
+
+  closeSettingsDialog() {
+    this.isSettingsDialogOpen = false;
   }
 
   openDialog() {
@@ -81,6 +102,7 @@ export class MainPageComponent {
         (response) => {
           console.log('List created:', response);
           this.isDialogOpen = false;
+          this.getShoppingLists();
         },
         (error) => {
           console.log('Error creating post:', error);
@@ -95,13 +117,25 @@ export class MainPageComponent {
     if(userId) {
       this.listsService.getListsByUserId(userId).subscribe(
         (lists: ListsData[]) => {
-          this.shoppingLists = lists;
+          this.shoppingLists = lists.filter(list => list.status === 'Active');
+          console.log('Loaded shopping lists:', this.shoppingLists)
         },
         (error) => {
           console.error('Error loading shopping lists', error);
         }
       );
     }
+  }
+
+  moveToTrash(shoppingListId: number): void {
+    this.listsService.updateListStatus(shoppingListId, 'Trash').subscribe(
+      () => {
+        this.getShoppingLists();
+      },
+      (error) => {
+        console.error('Error moving list to trash:', error);
+      }
+    );
   }
 
   onListClick(lists: ListsData) {
@@ -133,6 +167,46 @@ export class MainPageComponent {
     if (iconElement) {
       iconElement.innerText = randomIcon;
     }
+  }
+
+  logoutAllAccount(): void {
+    this.profileService.logoutAllAccount().subscribe(
+      (response) => {
+        console.log('Konto zostało wylogowane:', response);
+        localStorage.clear();
+        this.router.navigate(['/login']);
+        this.snackBar.open('Account logout succesfull from all devices!', 'Close', {
+          duration: 3000, 
+          horizontalPosition: 'center',
+          verticalPosition: 'top', 
+        });
+       
+      },
+      (error) => {
+        console.error('Błąd podczas wylogowywania konta:', error);
+       
+      }
+    );
+  }
+
+  logoutAccount(): void {
+    this.profileService.logoutAccount().subscribe(
+      (response) => {
+        console.log('Konto zostało wylogowane:', response);
+        localStorage.clear();
+        this.router.navigate(['/login']);
+        this.snackBar.open('Account logout succesfull!', 'Close', {
+          duration: 3000, 
+          horizontalPosition: 'center',
+          verticalPosition: 'top', 
+        });
+       
+      },
+      (error) => {
+        console.error('Błąd podczas wylogowywania konta:', error);
+       
+      }
+    );
   }
 
 }

@@ -25,6 +25,7 @@ import { MainPageComponent } from "./components/main-page/main-page.component";
 import { DialogModule } from 'primeng/dialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ListPageComponent } from "./components/list-page/list-page.component";
+import { TrashPageComponent } from "./components/trash-page/trash-page.component";
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { ListPageComponent } from "./components/list-page/list-page.component";
         RegisterPageComponent,
         LoginPageComponent,
         MainPageComponent,
-        ListPageComponent
+        ListPageComponent,
+        TrashPageComponent
     ],
     imports : [
         BrowserModule,

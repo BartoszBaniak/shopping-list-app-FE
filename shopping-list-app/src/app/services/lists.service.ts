@@ -83,4 +83,22 @@ export class ListsService {
 
     return this.http.delete(`${this.baseUrl}shoppingLists/${listId}/products/delete`, { headers, params });
   }
+
+  updateListStatus(shoppingListId: number, newStatus: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+
+    const params = new HttpParams().set('status', newStatus);
+
+    return this.http.put(`${this.baseUrl}shoppingLists/${shoppingListId}/updateStatus`, null, { headers, params })
+  }
+
+  deleteShoppingList(shoppingListId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+
+    return this.http.delete(`${this.baseUrl}shoppingLists/${shoppingListId}/delete`, { headers });
+  }
 }

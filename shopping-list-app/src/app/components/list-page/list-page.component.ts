@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingListData } from '../../models/shopping-list-data';
 import { ProductsData } from '../../models/product-data';
 import { ProductsService } from '../../services/products.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-page',
@@ -26,6 +27,7 @@ export class ListPageComponent {
   listItems: ShoppingListData[] = [];
   products: ProductsData[] = [];
   newProductName: string = '';
+  isSettingsDialogOpen = false;
   addedProducts: Set<string> = new Set<string>();
   private profileService = inject(ProfileService);
   private listsService = inject(ListsService);
@@ -35,6 +37,7 @@ export class ListPageComponent {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -86,6 +89,22 @@ export class ListPageComponent {
 
   goToShoppingLists() {
     this.router.navigate(['/main']);
+  }
+
+  goToTrash() {
+    this.router.navigate(['/trash']);
+  }
+
+  showSettingsDialog(): void {
+    this.openSettingsDialog();
+  }
+
+  openSettingsDialog() {
+    this.isSettingsDialogOpen = true;
+  }
+
+  closeSettingsDialog() {
+    this.isSettingsDialogOpen = false;
   }
 
   generateRandomIcon(): void {
@@ -233,5 +252,44 @@ export class ListPageComponent {
     }
   }
 
+  logoutAllAccount(): void {
+    this.profileService.logoutAllAccount().subscribe(
+      (response) => {
+        console.log('Konto zostało wylogowane:', response);
+        localStorage.clear();
+        this.router.navigate(['/login']);
+        this.snackBar.open('Account logout succesfull from all devices!', 'Close', {
+          duration: 3000, 
+          horizontalPosition: 'center',
+          verticalPosition: 'top', 
+        });
+       
+      },
+      (error) => {
+        console.error('Błąd podczas wylogowywania konta:', error);
+       
+      }
+    );
+  }
+
+  logoutAccount(): void {
+    this.profileService.logoutAccount().subscribe(
+      (response) => {
+        console.log('Konto zostało wylogowane:', response);
+        localStorage.clear();
+        this.router.navigate(['/login']);
+        this.snackBar.open('Account logout succesfull!', 'Close', {
+          duration: 3000, 
+          horizontalPosition: 'center',
+          verticalPosition: 'top', 
+        });
+       
+      },
+      (error) => {
+        console.error('Błąd podczas wylogowywania konta:', error);
+       
+      }
+    );
+  }
 
 }

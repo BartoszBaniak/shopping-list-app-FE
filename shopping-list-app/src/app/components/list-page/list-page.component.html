@@ -22,16 +22,22 @@
                         <span class="icon">📖</span>
                         Shopping lists
                     </div>
-                    <div class="trash">
+                    <div class="trash" (click)="goToTrash()">
                         <span class="icon">🗑️</span>
                         Trash
                     </div>
                 </ul>
             </nav>
-            <div class="settings">
-                <span class="icon">⚙️</span>
-                Settings
-            </div>
+            <div class="settings" (click)="showSettingsDialog()">
+              <span class="icon">⚙️</span>
+              Settings
+          </div>
+          <p-dialog header="Settings" [(visible)]="isSettingsDialogOpen" [modal]="true" [draggable]="false">
+              <div class="dialog-content">
+                  <button pButton type="button" label="Logout" icon="pi pi-sign-out" (click)="logoutAccount()"></button>
+                  <button pButton type="button" label="Logout All" icon="pi pi-sign-out" (click)="logoutAllAccount()"></button>
+                </div>
+          </p-dialog>
         </aside>
         <main class="main-content">
             <div class="container">

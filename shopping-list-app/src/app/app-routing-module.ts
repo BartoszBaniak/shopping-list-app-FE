@@ -4,6 +4,7 @@ import { RegisterPageComponent } from "./components/register-page/register-page.
 import { LoginPageComponent } from "./components/login-page/login-page.component";
 import { MainPageComponent } from "./components/main-page/main-page.component";
 import { ListPageComponent } from "./components/list-page/list-page.component";
+import { TrashPageComponent } from "./components/trash-page/trash-page.component";
 
 const routes: Routes = [
     { 
@@ -26,6 +27,10 @@ const routes: Routes = [
     {
         path:'list/:id',
         component: ListPageComponent
+    },
+    {
+        path:'trash',
+        component: TrashPageComponent
     }
 ];
 
