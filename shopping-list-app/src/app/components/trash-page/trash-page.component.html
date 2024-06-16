@@ -28,16 +28,10 @@
                     </div>
                 </ul>
             </nav>
-            <div class="settings" (click)="showSettingsDialog()">
+            <div class="settings" (click)="logoutAccount()">
                 <span class="icon">⚙️</span>
-                Settings
+                Logout
             </div>
-            <p-dialog header="Settings" [(visible)]="isSettingsDialogOpen" [modal]="true" [draggable]="false">
-                <div class="dialog-content">
-                    <button pButton type="button" label="Logout" icon="pi pi-sign-out" (click)="logoutAccount()"></button>
-                    <button pButton type="button" label="Logout All" icon="pi pi-sign-out" (click)="logoutAllAccount()"></button>
-                  </div>
-            </p-dialog>
         </aside>
         <main class="main-content">
             <div class="header">
@@ -59,12 +53,12 @@
             <div class="lists">
                 <div *ngFor="let list of shoppingLists" class="list-item">
                     <span style="margin-left: 20px;">{{ list.name }}</span>
-                    <span class="list-info">0/0</span>
+                    <span class="list-info"></span>
                     <button class="action-btn" (click)="toggleOverlayPanel($event, op)">⋮</button>
                         <p-overlayPanel #op class="overlay-edit-panel">
                             <div style="display: flex; flex-direction: column;">
                                 <button class="overlay-btn-rename" (click)="restoreList(list.id)">
-                                    <span class="icon">✏️</span>
+                                    <span class="icon">♻️</span>
                                     Restore
                                 </button>
                                 <button class="overlay-btn-delete" (click)="deleteListPermamently(list.id)">

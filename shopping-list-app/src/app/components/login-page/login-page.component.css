@@ -1,6 +1,7 @@
 #container {
     min-height: 100vh;
     display: flex;
+    font-family: 'Poppins';;
   }
   
   .leftside, .rightside {

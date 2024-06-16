@@ -20,13 +20,16 @@ export class MainPageComponent {
   userDetails?: UserDetails;
   isDialogOpen = false;
   isSettingsDialogOpen = false;
+  isEditDialogOpen = false;
   visible = false;
   settingVisible = false;
   newListName: string = '';
   firstNameInitial: string = '';
+  editListName: string = '';
   shoppingLists: ListsData[] = [];
   listDetails?: ListsData;
   listId!: number;
+  editListId!: number;
   listsInTrash: ListsData[] = [];
   private profileService = inject(ProfileService);
   private listsService = inject(ListsService);
@@ -95,6 +98,16 @@ export class MainPageComponent {
     this.isDialogOpen = false;
   }
 
+  openEditDialog(list: ListsData) {
+    this.editListName = list.name;
+    this.editListId = list.id;
+    this.isEditDialogOpen = true;
+  }
+
+  closeEditDialog() {
+    this.isEditDialogOpen = false;
+  }
+
   submitList() {
     if (this.newListName.trim().length > 0) {
       this.listsService.createList(this.newListName).
@@ -151,10 +164,6 @@ export class MainPageComponent {
 
   }
 
-  renameList(list: ListsData) {
-
-  }
-
   refreshPage(): void {
     window.location.reload();
   }
@@ -207,6 +216,56 @@ export class MainPageComponent {
        
       }
     );
+  }
+
+  // renameList(list: ListsData): void {
+  //   const newName = prompt('Enter the new name for the list:', list.name);
+  //   if(newName && newName.trim() !== '') {
+  //     this.listsService.updateListName(list.id, newName.trim()).subscribe(
+  //       () => {
+  //         console.log('List name updated successfully');
+  //         this.getShoppingLists();
+  //         this.snackBar.open('List name updated successfully!', 'Close', {
+  //           duration: 3000,
+  //           horizontalPosition: 'center',
+  //           verticalPosition: 'top',
+  //         });
+  //       },
+  //       (error) => {
+  //         console.error('Error updating list name:', error);
+  //         this.snackBar.open('Failed to update list name!', 'Close', {
+  //           duration: 3000,
+  //           horizontalPosition: 'center',
+  //           verticalPosition: 'top',
+  //         });
+  //       }
+  //     );
+  //   }
+  // }
+
+  submitEditList() {
+    if (this.editListName.trim().length > 0) {
+      this.listsService.updateListName(this.editListId, this.editListName.trim()).subscribe(
+        () => {
+          console.log('List name updated successfully');
+          this.getShoppingLists();
+          this.isEditDialogOpen = false;
+          this.snackBar.open('List name updated successfully!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+          });
+        },
+        (error) => {
+          console.error('Error updating list name:', error);
+          this.snackBar.open('Failed to update list name!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+          });
+        }
+      );
+    }
   }
 
 }

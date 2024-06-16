@@ -26,8 +26,14 @@ export class ListPageComponent {
   showAddProduct: boolean = false;
   listItems: ShoppingListData[] = [];
   products: ProductsData[] = [];
+  filteredProducts: any[] = [];
+  searchProductName: string = '';
   newProductName: string = '';
   isSettingsDialogOpen = false;
+  editListId!: number;
+  editListName: string = '';
+  isEditDialogOpen = false;
+  purchased: boolean = false;
   addedProducts: Set<string> = new Set<string>();
   private profileService = inject(ProfileService);
   private listsService = inject(ListsService);
@@ -55,8 +61,14 @@ export class ListPageComponent {
         this.getListItems();
         this.loadProducts();
         this.loadAddedProducts();
+        this.sortListItems();
+        this.filterProducts();
       }
     });
+  }
+
+  sortListItems() {
+    this.listItems.sort((a,b) => a.productName.localeCompare(b.productName));
   }
 
   getProfileDetails(): void {
@@ -121,10 +133,28 @@ export class ListPageComponent {
     this.showAddProduct = !this.showAddProduct;
   }
 
+  // toggleBoughtStatus(item: ShoppingListData): void {
+  //   item.purchased = !item.purchased;
+  //   this.listsService.updateItemStatus(this.listId, item.productName, item.purchased).subscribe(
+  //     () => {
+  //       console.log(`Product ${item.productName} status updated successfully`);
+  //     },
+  //     (error) => {
+  //       console.error('Error updating product status:', error);
+  //     }
+  //   );
+  // }
+
+  filterProducts() {
+    this.filteredProducts = this.products
+      .filter(product => product.name.toLowerCase().includes(this.searchProductName.toLowerCase()))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
   getListItems(): void {
     this.listsService.getShoppingListItems(this.listId).subscribe(
       (response) => {
-        this.listItems = response;
+        this.listItems = response.sort((a: { productName: string; },b: { productName: string; }) => a.productName.localeCompare(b.productName));
         this.updateAddedProducts();
         console.log(this.listItems);
       },
@@ -161,6 +191,17 @@ export class ListPageComponent {
     }
   }
 
+  addCustomProduct(): void {
+    if(this.newProductName.trim()) {
+      if (this.isProductAdded(this.newProductName)) {
+        console.log('Product is already in the list');
+      } else {
+        this.addProduct(this.newProductName);
+        this.newProductName = '';
+      }
+    }
+  }
+
   saveAddedProducts(): void {
     localStorage.setItem(`addedProducts_${this.listId}`, JSON.stringify(Array.from(this.addedProducts)));
   }
@@ -180,6 +221,7 @@ export class ListPageComponent {
     this.productsService.getProducts().subscribe(
       (response) => {
         this.products = response.products;
+        this.filteredProducts = [...this.products];
       },
       (error) => {
         console.error('Error loading products:', error);
@@ -219,6 +261,16 @@ export class ListPageComponent {
     }
   }
 
+  openEditDialog(list: ListsData) {
+    this.editListName = list.name;
+    this.editListId = list.id;
+    this.isEditDialogOpen = true;
+  }
+
+  closeEditDialog() {
+    this.isEditDialogOpen = false;
+  }
+
   increaseQuantity(item: any): void {
     item.quantity += 1;
     this.updateProductQuantity(item.productName, item.quantity);
@@ -228,8 +280,11 @@ export class ListPageComponent {
     if(item.quantity > 0) {
       item.quantity -= 1;
     }
-    
     this.updateProductQuantity(item.productName, item.quantity);
+
+    if(item.quantity === 0 || item.quantity === -1) {
+      this.deleteProduct(item.name);
+    }
   }
 
   deleteProduct(productName: string): void {

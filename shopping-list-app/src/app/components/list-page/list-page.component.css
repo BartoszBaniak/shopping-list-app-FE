@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins';
 }
 
 .container {
@@ -560,4 +560,9 @@ body {
     display: flex;
     align-items: center;
     margin-right: 30px;
+}
+
+.item-status {
+    cursor: pointer;
+    margin-right: 10px;
 }

@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins';
 }
 
 .container {
@@ -147,7 +147,7 @@ body {
 
 :host ::ng-deep .p-dialog .p-dialog-header-icon {
     display: none;
-  }
+}
 
 .p-button-secondary {
     margin-right: 1rem;

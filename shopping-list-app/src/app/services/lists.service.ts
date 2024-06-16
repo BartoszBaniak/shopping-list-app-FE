@@ -72,6 +72,27 @@ export class ListsService {
     return this.http.put<any>(`${this.baseUrl}shoppingLists/${shoppingListId}/products/update`, productQuantities, { headers })
   }
 
+  updateListStatus(shoppingListId: number, newStatus: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+
+    const params = new HttpParams().set('status', newStatus);
+
+    return this.http.put(`${this.baseUrl}shoppingLists/${shoppingListId}/updateStatus`, null, { headers, params })
+  }
+
+  updateListName(shoppingListId: number, newName: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+
+    const params = new HttpParams().set('newName', newName);
+
+    return this.http.put(`${this.baseUrl}shoppingLists/${shoppingListId}/updateName`, null, { headers, params })
+  }
+
+
   deleteProductsFromList(listId: number, productNames: string[]): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -84,15 +105,6 @@ export class ListsService {
     return this.http.delete(`${this.baseUrl}shoppingLists/${listId}/products/delete`, { headers, params });
   }
 
-  updateListStatus(shoppingListId: number, newStatus: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    });
-
-    const params = new HttpParams().set('status', newStatus);
-
-    return this.http.put(`${this.baseUrl}shoppingLists/${shoppingListId}/updateStatus`, null, { headers, params })
-  }
 
   deleteShoppingList(shoppingListId: number): Observable<any> {
     const headers = new HttpHeaders({
@@ -101,4 +113,17 @@ export class ListsService {
 
     return this.http.delete(`${this.baseUrl}shoppingLists/${shoppingListId}/delete`, { headers });
   }
+
+  updateItemStatus(shoppingListId: number, productId: number, purchased: boolean): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+  
+    const params = new HttpParams()
+      .set('productId', productId.toString())
+      .set('isBought', purchased.toString());
+  
+    return this.http.put(`${this.baseUrl}shoppingLists/${shoppingListId}/updateItemStatus`, null, { headers, params });
+  }
+  
 }

@@ -134,7 +134,7 @@ export class TrashPageComponent implements OnInit {
             this.listsService.deleteShoppingList(shoppingListId).subscribe(
                 () => {
                     this.getShoppingLists();
-                    this.snackBar.open('List deleted permamently!:', 'Close', {
+                    this.snackBar.open('List deleted permamently!', 'Close', {
                         duration: 3000,
                         horizontalPosition: 'center',
                         verticalPosition: 'top',
