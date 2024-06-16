@@ -44,49 +44,40 @@
                     <button class="action-btn">⋮</button>
                   </div>
                 </div>
-                <div class="content">
-                  <div class="main-section">
+                <div [ngClass]="{'content': listItems.length === 0, 'content-list': listItems.length > 0}">
+                  <div class="main-section" *ngIf="listItems.length === 0">
                     <p class="random-icon" id="randomIcon">{{generateRandomIcon()}}</p>
                     <p class="p1">What do you need to buy?</p>
                     <p class="p2">Start searching products to add them to your list</p>
                     <button *ngIf="!showAddProduct" class="add-products-btn" (click)="toggleAddProduct()">+ Add products</button>
                   </div>
+                  <div class="product-list" *ngIf="listItems.length > 0">
+                    <ul>
+                      <li *ngFor="let item of listItems">
+                        {{ item.productName }} {{ item.quantity }}
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               <div *ngIf="showAddProduct" class="add-product-section">
                 <div class="form-header">
-                  <h3>Add products</h3>
+                  <h3 class="h3">Add products</h3>
                   <button class="action-btn" (click)="toggleAddProduct()">❌</button>
                 </div>
-                <input type="text" placeholder="e.g milk" class="search-product" />
+                <input type="text" (ngModel)="newProductName" placeholder="e.g milk" class="search-product" />
                 <div class="tabs">
                   <button class="tab active">Popular</button>
                   <button class="tab">Recent</button>
                 </div>
                 <div class="product-list">
-                  <p><span class="add-icon">+</span> milk</p>
-                  <p><span class="add-icon">+</span> bread</p>
-                  <p><span class="add-icon">+</span> eggs</p>
-                  <p><span class="add-icon">+</span> butter</p>
-                  <p><span class="add-icon">+</span> cheese</p>
-                  <p><span class="add-icon">+</span> toilet paper</p>
-                  <p><span class="add-icon">+</span> chicken</p>
-                  <p><span class="add-icon">+</span> potatoes</p>
-                  <p><span class="add-icon">+</span> lettuce</p>
-                  <p><span class="add-icon">+</span> toothpaste</p>
-                  <p><span class="add-icon">+</span> juice</p>
-                  <p><span class="add-icon">+</span> shampoo</p>
-                  <p><span class="add-icon">+</span> water</p>
-                  <p><span class="add-icon">+</span> ketchup</p>
-                  <p><span class="add-icon">+</span> rice</p>
-                  <p><span class="add-icon">+</span> ham</p>
-                  <p><span class="add-icon">+</span> cucumber</p>
-                  <p><span class="add-icon">+</span> pasta</p>
-                  <p><span class="add-icon">+</span> ice cream</p>
-                  <p><span class="add-icon">+</span> tuna</p>
+                  <p *ngFor="let product of products" (click)="addProduct(product.name)">
+                    <span class="add-icon">+ {{ product.name }}</span>
+                  </p>
                 </div>
               </div>
             </div>
+            <button *ngIf="!showAddProduct && listItems.length > 0" class="second-add-products-btn" (click)="toggleAddProduct()">+ Add products</button>
         </main>
     </div>
 </body>

@@ -45,4 +45,22 @@ export class ListsService {
 
     return this.http.get<any>(`${this.baseUrl}shoppingLists/${id}`, { headers });
   }
+
+  getShoppingListItems(id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+
+    return this.http.get<any>(`${this.baseUrl}shoppingLists/${id}/items`, { headers });
+  }
+
+  addProductToList(shoppingListId: number, productName: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+
+    const body = { [productName]: 1 };
+
+    return this.http.post<any>(`${this.baseUrl}shoppingLists/${shoppingListId}/products/add`, body, { headers });
+  }
 }
