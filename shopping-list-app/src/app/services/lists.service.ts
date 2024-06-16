@@ -38,20 +38,20 @@ export class ListsService {
     return this.http.get<ListsData[]>(`${this.baseUrl}shoppingLists/user/${uuid}`, { headers })
   }
 
-  getListById(id: number): Observable<any> {
+  getListById(shoppingListId: number): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     });
 
-    return this.http.get<any>(`${this.baseUrl}shoppingLists/${id}`, { headers });
+    return this.http.get<any>(`${this.baseUrl}shoppingLists/${shoppingListId}`, { headers });
   }
 
-  getShoppingListItems(id: number): Observable<any> {
+  getShoppingListItems(shoppingListId: number): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     });
 
-    return this.http.get<any>(`${this.baseUrl}shoppingLists/${id}/items`, { headers });
+    return this.http.get<any>(`${this.baseUrl}shoppingLists/${shoppingListId}/items`, { headers });
   }
 
   addProductToList(shoppingListId: number, productName: string): Observable<any> {
@@ -62,5 +62,25 @@ export class ListsService {
     const body = { [productName]: 1 };
 
     return this.http.post<any>(`${this.baseUrl}shoppingLists/${shoppingListId}/products/add`, body, { headers });
+  }
+
+  updateProductQuantity(shoppingListId: number, productQuantities: { [productName: string]: number }) {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+
+    return this.http.put<any>(`${this.baseUrl}shoppingLists/${shoppingListId}/products/update`, productQuantities, { headers })
+  }
+
+  deleteProductsFromList(listId: number, productNames: string[]): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    });
+    let params = new HttpParams();
+    productNames.forEach(name => {
+      params = params.append('productNames', name);
+    });
+
+    return this.http.delete(`${this.baseUrl}shoppingLists/${listId}/products/delete`, { headers, params });
   }
 }

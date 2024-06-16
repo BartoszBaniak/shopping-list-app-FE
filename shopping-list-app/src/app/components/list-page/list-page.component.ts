@@ -26,6 +26,7 @@ export class ListPageComponent {
   listItems: ShoppingListData[] = [];
   products: ProductsData[] = [];
   newProductName: string = '';
+  addedProducts: Set<string> = new Set<string>();
   private profileService = inject(ProfileService);
   private listsService = inject(ListsService);
   private productsService = inject(ProductsService);
@@ -50,6 +51,7 @@ export class ListPageComponent {
         this.getListDetails();
         this.getListItems();
         this.loadProducts();
+        this.loadAddedProducts();
       }
     });
   }
@@ -104,6 +106,7 @@ export class ListPageComponent {
     this.listsService.getShoppingListItems(this.listId).subscribe(
       (response) => {
         this.listItems = response;
+        this.updateAddedProducts();
         console.log(this.listItems);
       },
       (error) => {
@@ -112,19 +115,46 @@ export class ListPageComponent {
     );
   }
 
+  updateAddedProducts(): void {
+    this.addedProducts.clear();
+    this.listItems.forEach(item => this.addedProducts.add(item.productName));
+    this.saveAddedProducts();
+  }
+
   addProduct(productName: string): void {
+    if(this.isProductAdded(productName)) {
+      return;
+    }
+
     const product = this.products.find(p => p.name === productName);
     if (product) {
       this.listsService.addProductToList(this.listId, product.name).subscribe(
         () => {
           console.log('Product added successfully with quantity 1');
           this.getListItems();
+          this.addedProducts.add(productName);
+          this.saveAddedProducts();
         },
         (error) => {
           console.error('Error adding product:', error);
         }
       );
     }
+  }
+
+  saveAddedProducts(): void {
+    localStorage.setItem(`addedProducts_${this.listId}`, JSON.stringify(Array.from(this.addedProducts)));
+  }
+
+  loadAddedProducts(): void {
+    const savedProducts = localStorage.getItem(`addedProducts_${this.listId}`);
+    if (savedProducts) {
+      this.addedProducts = new Set<string>(JSON.parse(savedProducts));
+    }
+  }
+
+  isProductAdded(productName: string): boolean {
+    return this.addedProducts.has(productName);
   }
 
   loadProducts(): void {
@@ -150,5 +180,58 @@ export class ListPageComponent {
       this.newProductName = '';
     }
   }
+
+  updateProductQuantity(productName: string, newQuantity: number): void {
+    if (productName && newQuantity) {
+      console.log('Updating product quantity:', productName, newQuantity);
+      const body = { [productName]: newQuantity };
+      
+      this.listsService.updateProductQuantity(this.listId, body).subscribe(
+        () => {
+          console.log('Product quantity updated successfully');
+          this.getListItems();
+        },
+        (error) => {
+          console.error('Error updating product quantity:', error);
+        }
+      );
+    } else {
+      console.error('Product name or new quantity is missing')
+    }
+  }
+
+  increaseQuantity(item: any): void {
+    item.quantity += 1;
+    this.updateProductQuantity(item.productName, item.quantity);
+  }
+
+  decreaseQuantity(item: any): void {
+    if(item.quantity > 0) {
+      item.quantity -= 1;
+    }
+    
+    this.updateProductQuantity(item.productName, item.quantity);
+  }
+
+  deleteProduct(productName: string): void {
+    this.listsService.deleteProductsFromList(this.listId, [productName]).subscribe(
+      () => {
+        console.log(`Product ${productName} deleted successfully`);
+        this.getListItems();
+        this.addedProducts.delete(productName);
+        this.saveAddedProducts();
+      },
+      (error) => {
+        console.error('Error deleting product:', error);
+      }
+    );
+  }
+
+  confirmDeleteProduct(productName: string): void {
+    if (confirm(`Are you sure you want to delete ${productName} from the list?`)) {
+      this.deleteProduct(productName);
+    }
+  }
+
 
 }

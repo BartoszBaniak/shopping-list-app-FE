@@ -53,8 +53,14 @@
                   </div>
                   <div class="product-list" *ngIf="listItems.length > 0">
                     <ul>
-                      <li *ngFor="let item of listItems">
-                        {{ item.productName }} {{ item.quantity }}
+                      <li *ngFor="let item of listItems" class="list-item">
+                        <span class="item-name">{{ item.productName }}</span>
+                        <div class="item-actions">
+                          <button class="quantity-btn" (click)="increaseQuantity(item)">+</button>
+                          {{ item.quantity }}
+                          <button class="quantity-btn" (click)="decreaseQuantity(item)">-</button>
+                        </div>
+                        <button class="delete-btn" (click)="deleteProduct(item.productName)">❌</button>
                       </li>
                     </ul>
                   </div>
@@ -71,8 +77,8 @@
                   <button class="tab">Recent</button>
                 </div>
                 <div class="product-list">
-                  <p *ngFor="let product of products" (click)="addProduct(product.name)">
-                    <span class="add-icon">+ {{ product.name }}</span>
+                  <p *ngFor="let product of products" (click)="isProductAdded(product.name) ? null : addProduct(product.name)" [class.disabled]="isProductAdded(product.name)">
+                    <span class="add-icon">{{ isProductAdded(product.name) ? '✅' : '+' }} {{ product.name }}</span>
                   </p>
                 </div>
               </div>

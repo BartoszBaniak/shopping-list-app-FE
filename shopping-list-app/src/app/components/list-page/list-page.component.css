@@ -157,7 +157,6 @@ body {
     justify-content: flex-start;
     max-height: 550px;
     font-size: 20px;
-    margin-left: 5%;
 }
 
 .ul .li {
@@ -272,19 +271,15 @@ body {
 }
 
 .list-item {
-    background-color: rgb(2, 167, 240, 0.75);
+    background-color: none;
     color: #fff;
     padding: 0.5rem;
     margin-bottom: 1rem !important;
     border-radius: 5px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin: 0;
-}
-
-.list-item:hover {
-    background-color: rgb(2, 167, 240, 0.6);
-    cursor: pointer;
 }
 
 .edit-btn {
@@ -524,4 +519,45 @@ body {
     display: flex;
     justify-content: center;
     margin: 0;
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+.quantity-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    transition: background-color 0.3s;
+    border-radius: 9999px;
+}
+
+.quantity-btn:hover {
+    background-color: #dddddd86;
+}
+
+.delete-btn {
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+    margin-left: auto;
+    background-color: transparent;
+}
+
+.item-name {
+    flex: 1;
+    text-align: left;
+    margin-right: 20px;
+}
+
+.item-actions {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
 }
