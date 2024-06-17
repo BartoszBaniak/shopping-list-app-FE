@@ -75,6 +75,7 @@
                   <button class="action-btn" (click)="toggleAddProduct()">❌</button>
                 </div>
                 <input type="text" [(ngModel)]="searchProductName" (input)="filterProducts()" placeholder="e.g milk" class="search-product"/>
+                  <button class="tab" (click)="addCustomProduct(searchProductName)">Add Product</button>
                 <!-- <div class="tabs">
                   <button class="tab active">Popular</button>
                   <button class="tab">Recent</button>

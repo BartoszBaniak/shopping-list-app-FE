@@ -191,16 +191,24 @@ export class ListPageComponent {
     }
   }
 
-  addCustomProduct(): void {
-    if(this.newProductName.trim()) {
-      if (this.isProductAdded(this.newProductName)) {
-        console.log('Product is already in the list');
-      } else {
-        this.addProduct(this.newProductName);
-        this.newProductName = '';
-      }
-    }
-  }
+  addCustomProduct(productName: string): void {
+           if (!this.searchProductName || this.isProductAdded(this.searchProductName)) {
+               return;
+             }
+
+             this.listsService.addProductToList(this.listId, this.searchProductName).subscribe(
+               () => {
+                 console.log('Produkt został pomyślnie dodany z ilością 1');
+                 this.getListItems();
+                 this.addedProducts.add(this.searchProductName);
+                 this.saveAddedProducts();
+                 this.searchProductName = ''; // Opcjonalnie wyczyść pole po dodaniu produktu
+               },
+               (error) => {
+                 console.error('Błąd podczas dodawania produktu:', error);
+               }
+             );
+           }
 
   saveAddedProducts(): void {
     localStorage.setItem(`addedProducts_${this.listId}`, JSON.stringify(Array.from(this.addedProducts)));
@@ -277,13 +285,15 @@ export class ListPageComponent {
   }
 
   decreaseQuantity(item: any): void {
-    if(item.quantity > 0) {
+    if (item.quantity > 0) {
       item.quantity -= 1;
-    }
-    this.updateProductQuantity(item.productName, item.quantity);
 
-    if(item.quantity === 0 || item.quantity === -1) {
-      this.deleteProduct(item.name);
+      if (item.quantity === 0) {
+        this.deleteProduct(item.productName);
+        return;
+      }
+
+      this.updateProductQuantity(item.productName, item.quantity);
     }
   }
 
