@@ -133,17 +133,9 @@ export class ListPageComponent {
     this.showAddProduct = !this.showAddProduct;
   }
 
-  // toggleBoughtStatus(item: ShoppingListData): void {
-  //   item.purchased = !item.purchased;
-  //   this.listsService.updateItemStatus(this.listId, item.productName, item.purchased).subscribe(
-  //     () => {
-  //       console.log(`Product ${item.productName} status updated successfully`);
-  //     },
-  //     (error) => {
-  //       console.error('Error updating product status:', error);
-  //     }
-  //   );
-  // }
+  toggleBoughtStatus(item: ShoppingListData): void {
+    item.purchased = !item.purchased;
+  }
 
   filterProducts() {
     this.filteredProducts = this.products

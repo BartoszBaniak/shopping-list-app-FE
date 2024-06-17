@@ -54,9 +54,6 @@
                   <div class="product-list" *ngIf="listItems.length > 0">
                     <ul>
                       <li *ngFor="let item of listItems" class="list-item">
-                        <!-- <span class="item-status" (click)="toggleBoughtStatus(item)">
-                          {{ item.purchased ? '🟢' : '🟥' }}
-                        </span> -->
                         <span class="item-name">{{ item.productName }}</span>
                         <div class="item-actions">
                           <button class="quantity-btn" (click)="increaseQuantity(item)">+</button>
@@ -76,10 +73,6 @@
                 </div>
                 <input type="text" [(ngModel)]="searchProductName" (input)="filterProducts()" placeholder="e.g milk" class="search-product"/>
                   <button class="tab" (click)="addCustomProduct(searchProductName)">Add Product</button>
-                <!-- <div class="tabs">
-                  <button class="tab active">Popular</button>
-                  <button class="tab">Recent</button>
-                </div> -->
                 <div class="product-list">
                   <p *ngFor="let product of filteredProducts" (click)="isProductAdded(product.name) ? null : addProduct(product.name)" [class.disabled]="isProductAdded(product.name)">
                     <span class="add-icon">{{ isProductAdded(product.name) ? '✅' : '+' }} {{ product.name }}</span>
